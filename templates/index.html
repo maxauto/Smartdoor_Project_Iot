@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugins/fontawesome-free/css/all.min.css') }}">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <!-- Tempusdominus Bbootstrap 4 -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}" >
+        <!-- iCheck -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" >
+        <!-- JQVMap -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='plugins/jqvmap/jqvmap.min.css') }}" >
+        <!-- Theme style -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/adminlte.min.css') }}" >
+        <!-- overlayScrollbars -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}" >
+        <!-- Daterange picker -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='plugins/daterangepicker/daterangepicker.css') }}" >
+        <!-- summernote -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='plugins/summernote/summernote-bs4.css') }}">
+        <!-- Google Font: Source Sans Pro -->
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+        
+        {{ JSGlue.include() }}
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <style>
+      .fa-moon {
+          color:gold;
+          font-size: 100px;
+      }
+      .fa-cloud-sun{
+        color:gold;
+      }
+      .fa-sun{
+        color: rgb(255, 102, 0);
+      }
+      .fa-cloud-showers-heavy{
+        color: rgb(5, 108, 139);
+      }
+      .fa-tree{
+        color: rgb(5, 112, 49);
+      }
+      .fa-flask{
+        color: rgb(255, 102, 0);
+      }
+      .fa-radiation-alt{
+        color: rgb(82, 0, 0);
+      }
+      .fa-mug-hot{
+        color: rgb(255, 102, 0);
+      }
+      .fa-snowman{
+        color: rgb(180, 227, 255);
+      }
+      .fa-temperature-high{
+        color: rgb(82, 0, 0);
+      }
+    </style>
+    
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <nav class="main-header navbar navbar-expand navbar-dark navbar-primary">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="#" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="#" class="nav-link">Contact</a>
+        </li>
+      </ul>
+  
+      <!-- SEARCH FORM -->
+      <form class="form-inline ml-3">
+        <div class="input-group input-group-sm">
+          <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-navbar" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+  
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+            <i class="fas fa-th-large"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <aside  class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="#" class="brand-link">
+        <i class="fas fa-meteor fa-2x mx-2"></i>
+        <span class="brand-text font-weight-bond ">Smart Door</span>
+      </a>
+    
+      <!-- Sidebar -->
+      <div class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition"><div class="os-resize-observer-host observed"><div class="os-resize-observer" style="left: 0px; right: auto;"></div></div><div class="os-size-auto-observer observed" style="height: calc(100% + 1px); float: left;"><div class="os-resize-observer"></div></div><div class="os-content-glue" style="margin: 0px -8px; width: 249px; height: 889px;"></div><div class="os-padding"><div class="os-viewport os-viewport-native-scrollbars-invisible" style="overflow-y: scroll;"><div class="os-content" style="padding: 0px 8px; height: 100%; width: 100%;">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex"> 
+          <a href="#"><i class="fas fa-user-astronaut fa-3x ml-1"></i></a>
+          <div class="info">
+            <a href="#" class="d-block my-2"><span class="brand-text font-weight-bond">Nares Chumparat</span>
+            </a>
+          </div>
+        </div>
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            
+            <li class="nav-item has-treeview menu-open">
+              <a href="#" class="nav-link active">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  Dashboard
+                  <i class="right fas fa-angle-left"></i>
+                </p> 
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item"  >
+                  <a  class="nav-link active" routerLinkActive="active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Smart Door V1</p>
+                  </a>
+                </li>
+                <li class="nav-item" >
+                  <a class="nav-link" routerLinkActive="active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Smart Door V2</p>
+                  </a>
+                </li>
+                
+              </ul>
+            </li>
+            <li class="nav-item has-treeview">
+              <a class="nav-link text-danger ">
+                <i class="nav-icon fas fa-sign-out-alt"></i>
+                <p>
+                  Logout
+                </p>
+              </a>
+            </li>
+            
+    
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div></div></div><div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden"><div class="os-scrollbar-track"><div class="os-scrollbar-handle" style="width: 100%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar os-scrollbar-vertical os-scrollbar-auto-hidden"><div class="os-scrollbar-track"><div class="os-scrollbar-handle" style="height: 70.7472%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar-corner"></div></div>
+      <!-- /.sidebar -->
+    </aside>
+    
+    <div class="content-wrapper" style="min-height: 629px;">
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0 text-dark">Smart Door V1</h1>
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <section class="content">
+        <div class="row">
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div id="box01" class="small-box bg-warning">
+                <div class="inner">
+                    <h3 id="hm1">0%</h3>
+                   
+                   <p>Humidity</p>
+                </div>
+                <div  class="icon">
+                  <i id="icon01" class="fas fa-sun"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div  id="box02" class="small-box bg-warning">
+                <div class="inner">
+                  <h3 id="at1">25 °C</h3>
+  
+                  <p>Air Temperature</p>
+                </div>
+                <div  class="icon">
+                  <i  id="icon02" class="fas fa-mug-hot"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div  id="box03" class="small-box bg-danger">
+                <div class="inner">
+                  <h3 id="pm1">0 μg/m3</h3>
+  
+                  <p>PM 2.5</p>
+                </div>
+                <div  class="icon">
+                  <i id="icon03" class="fas fa-radiation-alt"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div id="box04" class="small-box bg-info">
+                <div class="inner">
+                  <h3 id="nt1">00:00 AM</h3>
+  
+                  <p id="nd1">2020-01-01</p>
+                </div>
+                <div class="icon">
+                  
+                  <i id="icon04" class="fas fa-moon" ></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+          </div>
+          <div class="row">
+            <section class="col-lg-7 connectedSortable ui-sortable">
+              <div class="card card-danger card-outline" style="position: relative; left: 0px; top: 0px;">
+                <div class="card-header ui-sortable-handle" style="cursor: move;">
+                  <h3 class="card-title">
+                    <i class="fas fa-video mr-1"></i>
+                    Live Steam
+                  </h3>
+                  <div class="card-tools">
+                    <ul class="nav nav-pills ml-auto">
+                      <li class="nav-item">
+                       
+                        
+                          
+            
+                          <button id ="unlock_button" type="button" class="btn btn-block bg-gradient-danger btn-lg"><i class="fas fa-door-closed"></i> Lock</button>
+                        
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="tab-content p-0">
+                    <!-- Morris chart - Sales -->
+                    <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 400px;"><div class="chartjs-size-monitor">
+                      <div class="ml-5">
+                        <div class="ml-5">
+                          <img src="{{url_for('video_feed')}}">
+                        </div>
+                      </div>
+                    </div>
+  
+                    </div>  
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <div class="card card-primary card-outline">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="far fa-chart-bar"></i>
+                    Humidity Chart
+                  </h3>
+  
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div id="interactive0" style="height: 300px;"></div>
+                </div>
+                <!-- /.card-body-->
+              </div>
+              <div class="card card-warning card-outline">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="far fa-chart-bar"></i>
+                    Air temperature Chart
+                  </h3>
+  
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                  
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div id="interactive2" style="height: 300px;"></div>
+                </div>
+                <!-- /.card-body-->
+              </div>
+              
+            </section>
+            <section class="col-lg-5 connectedSortable ui-sortable">
+                <!-- Info Boxes Style 2 --> 
+      
+                <div  class="info-box">
+                    <span id="box05" class="info-box-icon bg-success elevation-1"><i id="icon05" class="fas fa-user-shield"></i></span>
+      
+                    <div  class="info-box-content">
+                      <h3<span class="info-box-text">Body Temperature</span></h3>
+                      <span class="info-box-number">
+                       <div id="guest1"></div>
+                        
+                      </span>
+                      
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                
+                    <div class="card card-info card-outline">
+                      <div class="card-header">
+                        <h3 class="card-title">
+                          <i class="fas fa-bullhorn"></i>
+                          Alerts
+                        </h3>
+                        <div class="card-tools">
+                          <ul class="nav nav-pills ml-auto">
+                            <li class="nav-item">
+                              <button id ="pump_button" type="button" class="btn btn-block bg-gradient-warning btn-lg"><i class="fas fa-pump-soap"></i> Gel Pump </button>
+                            </li>
+                          </ul>
+                        </div>
+                        
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                        <div id= "ring"></div>
+                        <div id= "motion"></div>
+                        <div id= "turnoff"></div>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                    <div class="card card-warning">
+                      <div class="card-header border-0 ui-sortable-handle" style="cursor: move;">
+                        <h2 class="card-title">
+                          <i class="fas fa-snowflake"></i>
+                          Air Conditioner
+                        </h2>
+        
+                        <div class="card-tools">
+                          <button id="stateair" class="btn btn-danger" >OFF</button>
+                          <button type="button" class="btn bg-warning btn-sm" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          
+                          <div class="col-lg-11 ml-3" id="myChart1"></div>
+                          <!-- ./col -->
+                        </div>
+                      </div>
+                      <!-- /.card-body -->
+                      
+                      <div class="card-footer bg-transparent" style="display: block;">
+                        <div class="row">
+                        <div class="col-5 ml-5">
+                          <div style="display:inline;width:60px;height:60px;"><canvas width="75" height="75" style="width: 60px; height: 60px;"></canvas><input type="text" value="10" id="knob01"   ></div><div class="ml-3"><h5><div class="text-dark ml-5">Frequency</div></h5></div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-5 ml-5  ">
+                          <div  style="display:inline;width:60px;height:60px;"><canvas width="75" height="75" style="width: 60px; height: 60px;"></canvas><input type="text" value="30" id="knob02" ></div><div class="ml-3"><h5><div class="text-dark ml-5">Duty circle ratio</div></h5></div>
+                        </div>
+                      </div>
+                        <!-- /.row -->
+                      </div>
+                      
+                      <!-- /.card-footer -->
+                    </div>
+                    <div class="card card-success card-outline">
+                      <div class="card-header">
+                        <h3 class="card-title">
+                          <i class="far fa-chart-bar"></i>
+                          PM 2.5 Chart
+                        </h3>
+        
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                          </button>
+                          
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        
+                        <div id="interactive1" style="height: 300px;"></div>
+                      </div>
+                      <!-- /.card-body-->
+                    </div>
+              </div>
+            
+  
+          </div>
+      </section>
+    </div>
+    <script>
+        $(document).ready(function(){
+            //connect to the socket server.
+            var socket = io.connect('http://' + document.domain + ':' + location.port + '/INC362');
+            var data = [];
+            var data1 = [];
+            var data2 = [];
+            var totalPoints = 100
+        
+            $('#unlock_button').on('click',function(){
+                s = 1;
+                socket.emit('unlock',s);
+            });
+            $('#pump_button').on('click',function(){
+                p = 1;
+                socket.emit('pump',p);
+            });
+
+            socket.on('state_pump', function(msg) {
+            if(msg.data == 1){
+               $('#pump_button').empty();
+               $('#pump_button').removeClass("btn btn-block bg-gradient-warning btn-lg")
+               $('#pump_button').addClass("btn btn-block bg-gradient-info btn-lg disabled")
+               $('#pump_button').html('<i class="fas fa-hand-sparkles">'+'</i>'+' Pump on')
+               
+             }
+            else{
+               $('#pump_button').empty();
+               $('#pump_button').removeClass("btn btn-block bg-gradient-info btn-lg disabled")
+               $('#pump_button').addClass("btn btn-block bg-gradient-warning btn-lg")
+               $('#pump_button').html('<i class="fas fa-pump-soap">'+'</i>'+'Gel Pump')
+            
+            }
+            });
+
+            socket.on('state', function(msg) {
+            if(msg.data == 1){
+               $('#unlock_button').empty();
+               $('#unlock_button').removeClass("btn btn-block bg-gradient-danger btn-lg")
+               $('#unlock_button').addClass("btn btn-block bg-gradient-success btn-lg disabled")
+               $('#unlock_button').html('<i class="fas fa-door-open">'+'</i>'+' Unlock')
+               
+             }
+            else{
+               $('#unlock_button').empty();
+               $('#unlock_button').removeClass("btn btn-block bg-gradient-success btn-lg disabled")
+               $('#unlock_button').addClass("btn btn-block bg-gradient-danger btn-lg")
+               $('#unlock_button').html('<i class="fas fa-door-closed">'+'</i>'+' Lock')
+            
+            }
+            });
+
+            socket.on('humiditydata', function(msg) {
+                $('#hm1').text(msg.data.toString()+'%')
+                if (msg.data<=75.0){
+                  $('#box01').removeClass("small-box bg-info")
+                  $('#box01').addClass("small-box bg-warning")
+                  $('#icon01').removeClass("fas fa-cloud-showers-heavy")
+                  $('#icon01').addClass("fas fa-sun")
+                  
+                }
+                else if (msg.data>75.0){
+                  
+                  $('#box01').removeClass("small-box bg-warning")
+                  $('#box01').addClass("small-box bg-info")
+                  $('#icon01').removeClass("fas fa-sun")
+                  $('#icon01').addClass("fas fa-cloud-showers-heavy")
+                } 
+                function datahumidity() {
+                  if (data.length > 0) {
+                    data = data.slice(1)
+                  }
+                  while (data.length < totalPoints) {
+                    y = msg.data
+                    data.push(y)
+                  }
+                  var res = []
+                  for (var i = 0; i < data.length; ++i) {
+                    res.push([i, data[i]])
+                  }
+
+                  return res
+                  }
+
+                var interactive0_plot = $.plot('#interactive0', [
+                  {
+                    data: datahumidity(),
+                  }
+                ],
+                {
+                  grid: {
+                    borderColor: '#f3f3f3',
+                    borderWidth: 1,
+                    tickColor: '#f3f3f3'
+                  },
+                  series: {
+                    color: '#3c8dbc',
+                    lines: {
+                      lineWidth: 2,
+                      show: true,
+                      fill: true,
+                    },
+                  },
+                  yaxis: {
+                  
+                    min:60,
+                    max:100,
+                   
+                    show: true,
+                  
+                  },
+                  xaxis: {
+                    show: true
+                  }
+                }
+                ) });
+            socket.on('pmdata', function(msg) {
+                $('#pm1').text(msg.data.toString()+'μg/m3')
+                if (msg.data<=12.0){
+                  $('#box03').removeClass("small-box bg-danger")
+                  $('#box03').removeClass("small-box bg-warning")
+                  $('#box03').addClass("small-box bg-success")
+                  $('#icon03').removeClass("fas fa-flask")
+                  $('#icon03').removeClass("fas fa-radiation-alt")
+                  $('#icon03').addClass("fas fa-tree")
+                }
+                else if (12.00<msg.data && msg.data<=55.40){
+                  $('#box03').removeClass("small-box bg-danger")
+                  $('#box03').removeClass("small-box bg-success")
+                  $('#box03').addClass("small-box bg-warning")
+                  $('#icon03').removeClass("fas fa-tree")
+                  $('#icon03').removeClass("fas fa-radiation-alt")
+                  $('#icon03').addClass("fas fa-flask")
+                } 
+                else if (msg.data<=500.0){
+                  $('#box03').removeClass("small-box bg-warning")
+                  $('#box03').removeClass("small-box bg-success")
+                  $('#box03').addClass("small-box bg-danger")
+                  $('#icon03').removeClass("fas fa-tree")
+                  $('#icon03').removeClass("fas fa-flask")
+                  $('#icon03').addClass("fas fa-radiation-alt")
+                  
+                }
+
+                function datapm() {
+                  if (data1.length > 0) {
+                    data1 = data1.slice(1)
+                  }
+                  while (data1.length < totalPoints) {
+                    y = msg.data
+                    data1.push(y)
+                  }
+                  var res = []
+                  for (var i = 0; i < data1.length; ++i) {
+                    res.push([i, data1[i]])
+                  }
+
+                  return res
+                  }
+
+                var interactive1_plot = $.plot('#interactive1', [
+                  {
+                    data: datapm(),
+                  }
+                ],
+                {
+                  grid: {
+                    borderColor: '#f3f3f3',
+                    borderWidth: 1,
+                    tickColor: '#f3f3f3'
+                  },
+                  series: {
+                    color: '#00cc66',
+                    lines: {
+                      lineWidth: 2,
+                      show: true,
+                      fill: true,
+                    },
+                  },
+                  yaxis: {
+                  
+                    min:60,
+                    max:100,
+                    show: true,
+                  
+                  },
+                  xaxis: {
+                    show: true
+                  }
+                }
+                )
+            
+            });
+            socket.on('airtempdata', function(msg) {
+                $('#at1').text(msg.data.toString()+'°C')
+                if (msg.data<=28.00){
+                  $('#box02').removeClass("small-box bg-danger")
+                  $('#box02').removeClass("small-box bg-warning")
+                  $('#box02').addClass("small-box bg-info")
+                  $('#icon02').removeClass("fas fa-mug-hot")
+                  $('#icon02').removeClass("fas fa-temperature-high")
+                  $('#icon02').addClass("fas fa-snowman")
+                }
+                else if (28.00<msg.data && msg.data<=35.00){
+                  $('#box02').removeClass("small-box bg-danger")
+                  $('#box02').removeClass("small-box bg-info")
+                  $('#box02').addClass("small-box bg-warning")
+                  $('#icon02').removeClass("fas fa-snowman")
+                  $('#icon02').removeClass("fas fa-temperature-high")
+                  $('#icon02').addClass("fas fa-mug-hot")
+                } 
+                else if (msg.data>35.00){
+                  $('#box02').removeClass("small-box bg-warning")
+                  $('#box02').removeClass("small-box bg-info")
+                  $('#box02').addClass("small-box bg-danger")
+                  $('#icon02').removeClass("fas fa-mug-hot")
+                  $('#icon02').removeClass("fas fa-snowman")
+                  $('#icon02').addClass("fas fa-temperature-high")
+                }
+
+
+                function dataairtemp() {
+                  if (data2.length > 0) {
+                    data2 = data2.slice(1)
+                  }
+                  while (data2.length < totalPoints) {
+                    y = msg.data
+                    data2.push(y)
+                  }
+                  var res = []
+                  for (var i = 0; i < data2.length; ++i) {
+                    res.push([i, data2[i]])
+                  }
+
+                  return res
+                  }
+
+                var interactive2_plot = $.plot('#interactive2', [
+                  {
+                    data: dataairtemp(),
+                  }
+                ],
+                {
+                  grid: {
+                    borderColor: '#f3f3f3',
+                    borderWidth: 1,
+                    tickColor: '#f3f3f3'
+                  },
+                  series: {
+                    color: '#ffcc00',
+                    lines: {
+                      lineWidth: 2,
+                      show: true,
+                      fill: true,
+                    },
+                  },
+                  yaxis: {
+                  
+                    min:60,
+                    max:100,
+                   
+                    show: true,
+                  
+                  },
+                  xaxis: {
+                    show: true
+                  }
+                }
+                )
+            
+            });
+            socket.on('guest', function(msg) {
+               if (msg.data){
+                 $('#guest1').html('<p id="bt1"></p>')
+               }
+               else{
+                $('#guest1').empty()
+               }
+            
+            });
+            socket.on('bodytempdata', function(msg) {
+                $('#bt1').text(msg.data.toString()+'°C')
+                if (msg.data<37.50){
+                  $('#box05').removeClass("info-box-icon bg-danger elevation-1")
+                  $('#box05').addClass("info-box-icon bg-success elevation-1")
+                  $('#icon05').removeClass("fas fa-lungs-virus")
+                  $('#icon05').addClass("fas fa-user-shield")
+                }
+                else if (msg.data>=37.50){
+                  $('#box05').removeClass("info-box-icon bg-success elevation-1")
+                  $('#box05').addClass("info-box-icon bg-danger elevation-1")
+                  $('#icon05').removeClass("fas fa-user-shield")
+                  $('#icon05').addClass("fas fa-lungs-virus")
+                } 
+                
+            });
+            socket.on('nowdate', function(msg) {
+                $('#nd1').text(msg.data)
+            
+            });
+            socket.on('nowtime', function(msg) {
+                $('#nt1').text(msg.data)
+                console.log(msg.data.slice(0,2));
+                var time = parseInt(msg.data.slice(0,2));
+                if (time>6 && time<18){
+                  $('#box04').removeClass("small-box bg-dark")
+                  $('#box04').addClass("small-box bg-info")
+                  $('#icon04').removeClass("fas fa-moon")
+                  $('#icon04').addClass("fas fa-cloud-sun")
+                  
+                }
+                else{
+                  $('#box04').removeClass("small-box bg-info")
+                  $('#box04').addClass("small-box bg-dark")
+                  $('#icon04').removeClass("fas fa-cloud-sun")
+                  $('#icon04').addClass("fas fa-moon")
+                }
+                
+            
+            });
+            socket.on('statepsw0', function(msg) {
+              if(msg.data==1){
+                $('#ring').append(
+                  '<div class="alert alert-warning alert-dismissible">'+
+                          '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">'+'×'+'</button>'+
+                          '<h5>'+'<i class="fas fa-exclamation-triangle">'+'</i>'+'Warning !!!'+'</h5>'+
+                           'Someone ring the doorbell.'
+                  +'</div>')
+              }
+                
+            
+            });
+            socket.on('statepsw1', function(msg) {
+              if(msg.data==1){
+                $('#motion').append(
+                  '<div class="alert alert-danger alert-dismissible">'+
+                          '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">'+'×'+'</button>'+
+                          '<h5>'+'<i class="fas fa-exclamation-triangle">'+'</i>'+'Alert !'+'</h5>'+
+                           'Detecting Something !!!'
+                  +'</div>')
+              }
+               
+            
+            });
+            socket.on('statepsw2', function(msg) {
+              if(msg.data==1){
+                $('#turnoff').append(
+                  '<div class="alert alert-success alert-dismissible">'+
+                          '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">'+'×'+'</button>'+
+                          '<h5>'+'<i class="fas fa-exclamation-triangle">'+'</i>'+'Alert !'+'</h5>'+
+                           'Host gone outside !!'
+                  +'</div>')
+
+                
+              }
+   
+            });
+            
+          
+
+            $('#knob01').knob({
+              'min': 1,
+              'max': 100,
+              'width':120,
+              'height':120,
+              'fgColor':'#ff6699',
+              release : function (value) {
+                socket.emit("frequency",value);
+              },
+            });
+            $('#knob02').knob({
+              'min': 0,
+              'max': 100,
+              'width':120,
+              'height':120,
+              'fgColor':'#0066ff',
+              release : function (value) {
+                socket.emit("duty",value);
+              },
+            });
+
+            socket.on('statefan', function(msg) {
+              if(msg.data==1){
+               $('#stateair').empty();
+               $('#stateair').removeClass("btn btn-danger")
+               $('#stateair').addClass("btn btn-success")
+               $('#stateair').text("ON")
+
+              }
+              else if (msg.data==0){
+               $('#stateair').empty();
+               $('#stateair').removeClass("btn btn-success")
+               $('#stateair').addClass("btn btn-danger")
+               $('#stateair').text("OFF")
+
+              }
+            });
+
+       
+    var updateInterval = 500 //Fetch data ever x milliseconds
+    var realtime       = 'on' 
+    function update() {
+
+      interactive0_plot.setData([datahumidity()])
+      interactive1_plot.setData([dataairtemp()])
+      interactive2_plot.setData([datapm()])
+
+      
+      interactive0_plot.draw()
+      interactive1_plot.draw()
+      interactive2_plot.draw()
+      if (realtime === 'on') {
+        setTimeout(update, updateInterval)
+      }
+    }
+    
+    if (realtime === 'on') {
+      update()
+    }
+
+
+            
+        });
+    
+    </script>
+    
+    
+    <script src="{{ url_for('static', filename="plotly.min.js") }}" ></script>
+    <script src="{{ url_for('static', filename="plugins/jquery-ui/jquery-ui.min.js") }}" ></script>
+   
+    <script src="{{ url_for('static', filename="plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
+   
+    
+    <!-- Sparkline -->
+    <script src="{{ url_for('static', filename="plugins/sparklines/sparkline.js") }}"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="{{ url_for('static', filename="plugins/jquery-knob/jquery.knob.min.js") }}"></script>
+    <!-- daterangepicker -->
+    <script src="{{ url_for('static', filename="plugins/moment/moment.min.js") }}"></script>
+    <script src="{{ url_for('static', filename="plugins/daterangepicker/daterangepicker.js") }}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{{ url_for('static', filename="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js") }}"></script>
+    <!-- Summernote -->
+    <script src="{{ url_for('static', filename="plugins/summernote/summernote-bs4.min.js") }}"></script>
+    <!-- overlayScrollbars -->
+    <script src="{{ url_for('static', filename="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js") }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ url_for('static', filename="dist/js/adminlte.js") }}"></script>
+
+    <script src="{{ url_for('static', filename="dist/js/demo.js") }}"></script>
+    <script src="{{ url_for('static', filename="plugins/flot/jquery.flot.js") }}"></script>
+    <script src="{{ url_for('static', filename="plugins/flot-old/jquery.flot.resize.min.js") }}"></script>
+    <script src="{{ url_for('static', filename="plugins/flot-old/jquery.flot.pie.min.js") }}"></script>
+    
+    
+    <!-- AdminLTE for demo purposes -->
+    
+
+</body>
+</html>
+
